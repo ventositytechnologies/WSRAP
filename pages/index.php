@@ -30,7 +30,6 @@
     </head>
 
     <body>
-	<input type="hidden" id="address" />
     	<?php
     	function createRandomPassword() {
     		$chars = "003232303232023232023456789";
@@ -60,8 +59,28 @@
     					<div class="panel-heading">
     						<h3 class="panel-title" style="text-align:center"><b>WSR</b></h3>
     					</div>
+    				<!--	<ul class="nav nav-pills">
+    						<li class="active"><a data-toggle="pill" href="#menu2">Cashier</a></li>
+    					</ul>-->
     					<div class="tab-content">
-    					
+    						<!-- Department -->
+    					<!--	<div id="home" class="tab-pane fade in active">
+    							<br />
+    							<form method="post" name="admin_form">
+    								<div class="form-group">
+    									<input type="text" class="form-control" name="username" placeholder="Username">
+    								</div>
+    								<div class="form-group">
+    									<input type="password" class="form-control" name="pass" placeholder="Password">
+    								</div>
+    								<div class="form-group">
+    									<button class="btn btn-block btn-success" id = "btn-login" name = "btn-login">Log in</button>
+    								</div>
+    								<div class="form-group" id="alert-msg">
+    								</div>
+
+    							</form>
+    						</div>-->
     						<div id="menu2" class="tab-pane fade in active">
     							<br />
     							<form method="post" name="cashier_form">
@@ -134,8 +153,7 @@
 
     				var a = $(this).find('input[name="cashier_username"]').val();
     				var b = $(this).find('input[name="cashier_pass"]').val();
-					var c = $("#address").val();
-					
+
     				if (a === '' && b ===''){
     					$('#alert-msg1').html('<div class="alert alert-danger">All fields are required!</div>');
     				}else{
@@ -144,81 +162,25 @@
     						url: 'cashier/new_login.php',
     						data: {
     							username: a,
-    							password: b,
-								address: c
+    							password: b
     						},
     						beforeSend:  function(){
     							$('#alert-msg1').html('');
     						}
     					})
     					.done(function(donard){
-							console.log(donard);
+console.log(donard);
     						if (donard == 0){
     							$('#alert-msg1').html('<div class="alert alert-danger">Incorrect username or password!</div>');
-    						}else if(donard==1){
+    						}else{
     							$("#btn").html('<img src="loading.gif" /> &nbsp; Signing In ...');
     							setTimeout(' window.location.href = "cashier/sales.php?id=cash&invoice=<?php echo $finalcode ?>"; ',2000);
     						}
-							else{
-								$('#alert-msg1').html('<div class="alert alert-danger">You are Today already Login !</div>');
-							}
     					});
     				}
     			});
     		});
     	</script>
-		
-		
-		<script>
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-       alert('Browser not supported');
-    }
-}
-
-function showPosition(position) {
-	var latVar=0.0;
-	var lngVar=0.0;
-
-    latVar = position.coords.latitude ; 
-    lngVar =  position.coords.longitude;
-	geocodeLatLng(latVar,lngVar);
-}
-
-
-</script>
-
-<script>
-  
-  function geocodeLatLng(latGet, lngGet) {
-
-  	var geocoder = new google.maps.Geocoder;
-
-  	var addressDiv = document.getElementById('address');
-    
-    var latlng = {lat: parseFloat(latGet), lng: parseFloat(lngGet)};
-
-    geocoder.geocode({'location': latlng}, function(results, status) {
-      if (status === 'OK') {
-        if (results[0]) {
-        	addressDiv.value = results[0].formatted_address;
-          
-        } else {
-          window.alert('No results found');
-        }
-      } else {
-        window.alert('Geocoder failed due to: ' + status);
-      }
-    });
-  }
-</script>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_SZxcGLYuHd5cNnYdsKaR_kU04qU4UvY&callback=getLocation">
-</script>
-
 
     </body>
 
